@@ -101,9 +101,7 @@ const login = async (req, res) => {
   // compare password
 
   if (!isPasswordCorrect) {
-    throw new UnauthenticatedError(
-      `Sorry, that password isn't right. We can help you <a href="/auth/login/forgot-password" class="api-link">recover your password</a>`
-    );
+    throw new UnauthenticatedError(`Sorry, that password isn't right.`);
   }
 
   const token = user.createJWT();

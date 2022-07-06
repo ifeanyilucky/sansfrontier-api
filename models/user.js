@@ -38,8 +38,7 @@ const UserSchema = new mongoose.Schema(
     },
     profilePic: {
       type: String,
-      default:
-        'https://avatars.dicebear.com/api/male/avataaars.svg',
+      default: 'https://avatars.dicebear.com/api/male/avataaars.svg',
     },
     password: {
       type: String,
@@ -48,7 +47,7 @@ const UserSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ['investor', 'admin'],
+      enum: ['investor', 'admin', 'affiliate'],
       default: 'investor',
       required: [true, 'Please specify role of user'],
     },
