@@ -20,8 +20,8 @@ const withdrawFunds = async (req, res) => {
   
   `;
   await sendEmail({
-    from: `Lemox Team <support@lemox.co>`,
-    to: 'support@lemox.co',
+    from: `Lemox Team <support@lemox.io>`,
+    to: 'support@lemox.io',
     subject: 'Lemox user is requesting for withdrawal!',
     text: withdrawMsg,
   });

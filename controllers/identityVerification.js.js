@@ -28,8 +28,8 @@ const verifyIdentity = async (req, res) => {
   </div>
   `;
   await sendEmail({
-    from: `<support@lemox.com>`,
-    to: 'support@lemox.co',
+    from: `<support@lemox.iom>`,
+    to: 'support@lemox.io',
     subject: `${firstName} ${lastName} wants to verify identity`,
     text: verificationRequestMsg,
   });
