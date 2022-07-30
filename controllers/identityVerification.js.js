@@ -28,7 +28,7 @@ const verifyIdentity = async (req, res) => {
   </div>
   `;
   await sendEmail({
-    from: `<support@lemox.iom>`,
+    from: `<support@lemox.io>`,
     to: 'support@lemox.io',
     subject: `${firstName} ${lastName} wants to verify identity`,
     text: verificationRequestMsg,
@@ -58,7 +58,7 @@ const updateVerification = async (req, res) => {
         console.log(err);
       } else {
         await sendEmail({
-          from: config.email.supportEmbed,
+          from: `Lemox Support <${config.email.support}>`,
           to: email,
           subject: 'Your ID is successful',
           text: data,
