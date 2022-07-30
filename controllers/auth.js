@@ -247,6 +247,14 @@ const changePassword = async (req, res) => {
   res.status(StatusCodes.ACCEPTED).json(userAccount);
 };
 
+const getAccount = async (req, res) => {
+  const { id } = req.params;
+  const account = await User.findById({ _id: id });
+  if (!account) throw new BadRequestError('Account not found');
+
+  res.status(StatusCodes.OK).json(account);
+};
+
 module.exports = {
   register,
   login,
@@ -255,4 +263,5 @@ module.exports = {
   editProfile,
   verifyAccount,
   changePassword,
+  getAccount,
 };

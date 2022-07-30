@@ -40,6 +40,7 @@ app.use(
         req.rawBody = buf;
       }
     },
+    limit: '50mb',
   })
 );
 app.use(bodyParser.json());
