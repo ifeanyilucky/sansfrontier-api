@@ -158,30 +158,6 @@ const paymentHandler = async (req, res) => {
       });
       if (!investment) {
         const fAmount = event.data.pricing.local.amount.toLocaleString();
-        ejs.renderFile(
-          path.join(__dirname, '../views/email/investment-complete.ejs'),
-          {
-            config,
-            title: 'Investment completed',
-            amount: `$ ${fAmount}`,
-            firstName: event.data.metadata.customer_first_name,
-            propertyTitle: event.data.description,
-            id: event.data.id,
-          },
-          async (err, data) => {
-            if (err) {
-              console.log(err);
-            } else {
-              await sendEmail({
-                from: config.email.supportEmbed,
-                to: event.data.metadata.customer_email,
-                subject: 'Investment completed',
-                text: data,
-              });
-            }
-          }
-        );
-
         const property = await properties.findById({
           _id: event.data.metadata.property_id,
         });
@@ -210,31 +186,8 @@ const paymentHandler = async (req, res) => {
       const investment = await InvestModel.findOne({
         chargeId: event.data.id,
       });
-      if (!investment) {
+      if (investment) {
         const fAmount = event.data.pricing.local.amount.toLocaleString();
-        ejs.renderFile(
-          path.join(__dirname, '../views/email/investment-complete.ejs'),
-          {
-            config,
-            title: 'Investment completed',
-            amount: `$ ${fAmount}`,
-            firstName: event.data.metadata.customer_first_name,
-            propertyTitle: event.data.description,
-            id: event.data.id,
-          },
-          async (err, data) => {
-            if (err) {
-              console.log(err);
-            } else {
-              await sendEmail({
-                from: config.email.supportEmbed,
-                to: event.data.metadata.customer_email,
-                subject: 'Investment completed',
-                text: data,
-              });
-            }
-          }
-        );
 
         await InvestModel.create({
           ...req.body,
@@ -248,14 +201,11 @@ const paymentHandler = async (req, res) => {
           chargeCode: event.data.code,
           status: 'pending',
         });
-      } else {
-        console.log(
-          'Payment was successful and investment has been added to the database'
-        );
       }
     }
     if (event.type === 'charge:confirmed') {
       console.log('charge is confirmed...');
+
       const investments = await InvestModel.find({
         chargeId: event.data.id,
       });
@@ -280,10 +230,6 @@ const paymentHandler = async (req, res) => {
           {
             status: 'success',
           }
-        );
-      } else {
-        console.log(
-          'Payment was successful and investment has been added to the database'
         );
       }
     }
