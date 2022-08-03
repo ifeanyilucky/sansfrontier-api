@@ -151,34 +151,6 @@ const paymentHandler = async (req, res) => {
     const event = Webhook.verifyEventBody(rawBody, signature, webhookSecret);
     if (event.type === 'charge:created') {
       console.log('charge created');
-
-      // MOVE THIS CODE TO PENDING EVENT
-      const investment = await InvestModel.findOne({
-        chargeId: event.data.id,
-      });
-      if (!investment) {
-        const fAmount = event.data.pricing.local.amount.toLocaleString();
-        const property = await properties.findById({
-          _id: event.data.metadata.property_id,
-        });
-        await InvestModel.create({
-          ...req.body,
-          incrementAmount: event.data.pricing.local.amount,
-          charge: event.data,
-          propertyId: event.data.metadata.property_id,
-          property: property,
-          ethToken: event.data.metadata.ethToken,
-          amount: event.data.pricing.local.amount,
-          user: event.data.metadata.customer_id,
-          chargeId: event.data.id,
-          chargeCode: event.data.code,
-          status: 'pending',
-        });
-      } else {
-        console.log(
-          'Payment was successful and investment has been added to the database'
-        );
-      }
     }
     if (event.type === 'charge:pending') {
       console.log('charge pending');
@@ -229,7 +201,8 @@ const paymentHandler = async (req, res) => {
           { _id: pendingInvestment._id },
           {
             status: 'success',
-          }
+          },
+          { new: true }
         );
       }
     }
