@@ -39,6 +39,7 @@ const createInvestment = async (req, res) => {
       customer_first_name: user.firstName,
       property_id: property._id,
       ethToken: ethToken,
+      expectedIncome: property.financials.expectedIncome,
     },
   };
   await Charge.create(chargeData, async (err, response) => {
@@ -58,7 +59,20 @@ const successInvestment = async (req, res) => {
   const investment = await InvestModel.create(req.body);
   res.status(StatusCodes.CREATED).json(investment);
 };
-
+const deleteInvestment = async (req, res) => {
+  const { id } = req.params;
+  const investment = await InvestModel.findOneAndRemove({ _id: id });
+  if (!investment) throw new NotFoundError('Investment not found');
+  res.status(StatusCodes.OK).json(investment);
+};
+const processInvestment = async (req, res) => {
+  const { id } = req.params;
+  const investment = await InvestModel.findOneAndUpdate({ _id: id }, req.body, {
+    new: true,
+  });
+  if (!investment) throw new NotFoundError('Investment not found');
+  res.status(StatusCodes.OK).json(investment);
+};
 const updateInvestment = async (req, res) => {
   const { id } = req.params;
   const {
@@ -151,14 +165,10 @@ const paymentHandler = async (req, res) => {
     const event = Webhook.verifyEventBody(rawBody, signature, webhookSecret);
     if (event.type === 'charge:created') {
       console.log('charge created');
-    }
-    if (event.type === 'charge:pending') {
-      console.log('charge pending');
-
       const investment = await InvestModel.findOne({
         chargeId: event.data.id,
       });
-      if (investment) {
+      if (!investment) {
         const fAmount = event.data.pricing.local.amount.toLocaleString();
 
         await InvestModel.create({
@@ -172,8 +182,12 @@ const paymentHandler = async (req, res) => {
           chargeId: event.data.id,
           chargeCode: event.data.code,
           status: 'pending',
+          expectedIncome: event.data.metadata.expectedIncome,
         });
       }
+    }
+    if (event.type === 'charge:pending') {
+      console.log('charge pending');
     }
     if (event.type === 'charge:confirmed') {
       console.log('charge is confirmed...');
@@ -232,4 +246,6 @@ module.exports = {
   successInvestment,
   paymentHandler,
   adminUpdate,
+  deleteInvestment,
+  processInvestment,
 };

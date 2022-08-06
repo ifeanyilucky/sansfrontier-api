@@ -66,6 +66,10 @@ const InvestmentSchema = new Schema({
   minimumReturn: {
     type: Number,
   },
+  expectedIncome: {
+    type: Number,
+    default: 10,
+  },
 });
 
 module.exports = mongoose.model('Investment', InvestmentSchema);
