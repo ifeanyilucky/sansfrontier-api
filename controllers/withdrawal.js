@@ -1,6 +1,12 @@
 const withdrawal = require('../models/withdrawal');
 const { StatusCodes } = require('http-status-codes');
+const { NotFoundError } = require('../errors');
 const sendEmail = require('../utils/sendEmail');
+const ejs = require('ejs');
+const path = require('path');
+const config = require('../config');
+const { format } = require('date-fns');
+const moment = require('moment');
 
 const withdrawFunds = async (req, res) => {
   const { email } = req.user;
@@ -38,8 +44,67 @@ const getSingleWithdrawal = async (req, res) => {
   res.status(StatusCodes.OK).json(withdraw);
 };
 
+const processWithdrawal = async (req, res) => {
+  const { id } = req.params;
+  const {
+    status,
+    btcWalletAddress,
+    amount,
+    firstName,
+    lastName,
+    email,
+    refId,
+    date,
+  } = req.body;
+
+  const processedWithdrawal = await withdrawal.findOneAndUpdate(
+    { _id: id },
+    { status: 'complete' },
+    { new: true }
+  );
+  if (!processedWithdrawal) throw new NotFoundError('Withdrawal not found');
+  const fAmount = Number(amount).toLocaleString();
+  const fDate = moment(date).format('dddd, MMMM Do YYYY, h:mm:ss a');
+  console.log(fDate);
+  ejs.renderFile(
+    path.join(__dirname, '../views/email/withdrawal-success.ejs'),
+    {
+      config,
+      amount: `$ ${fAmount}`,
+      btcWalletAddress,
+      firstName,
+      refId,
+      date: fDate,
+      lastName,
+      title: `Thank you for trusting us`,
+    },
+    async (err, data) => {
+      if (err) {
+        console.log(err);
+      } else {
+        await sendEmail({
+          from: 'Lemox Support <support@lemox.io',
+          to: email,
+          subject: `Your withdrawal request of $ ${fAmount} has been sent to your BTC address`,
+          text: data,
+        });
+      }
+    }
+  );
+
+  res.status(StatusCodes.ACCEPTED).json(processedWithdrawal);
+};
+
+const cancelWithdrawal = async (req, res) => {
+  const { id } = req.params;
+
+  const data = await withdrawal.findOneAndRemove({ _id: id });
+  res.status(StatusCodes.ACCEPTED).json(data);
+};
 module.exports = {
   withdrawFunds,
   getAllWithdrawal,
   getSingleWithdrawal,
+  processWithdrawal,
+  cancelWithdrawal,
 };

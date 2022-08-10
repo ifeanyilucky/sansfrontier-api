@@ -16,4 +16,11 @@ const getUser = async (req, res) => {
   res.status(StatusCodes.OK).json(user);
 };
 
-module.exports = { getUser, getUsers };
+const deleteUser = async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findOneAndRemove({ _id: id });
+  if (!user) throw new NotFoundError('User not found');
+  res.status(StatusCodes.OK).json(user);
+};
+
+module.exports = { getUser, getUsers, deleteUser };

@@ -46,6 +46,17 @@ const createInvestment = async (req, res) => {
     if (err) {
       res.status(400).send({ message: err.message });
     } else {
+      await InvestModel.create({
+        charge: response,
+        property: response.metadata.property_id,
+        ethToken: response.metadata.ethToken,
+        amount: response.pricing.local.amount,
+        user: response.metadata.customer_id,
+        chargeId: response.id,
+        chargeCode: response.code,
+        status: 'pending',
+        expectedIncome: response.metadata.expectedIncome,
+      });
       res.status(200).send({
         hosted_url: response.hosted_url,
         id: response.id,
@@ -55,8 +66,11 @@ const createInvestment = async (req, res) => {
   });
 };
 
-const successInvestment = async (req, res) => {
-  const investment = await InvestModel.create(req.body);
+const detectInvestment = async (req, res) => {
+  const { id } = req.params;
+  const investment = await InvestModel.findOneAndUpdate({ _id: id }, req.body, {
+    new: true,
+  });
   res.status(StatusCodes.CREATED).json(investment);
 };
 const deleteInvestment = async (req, res) => {
@@ -67,10 +81,51 @@ const deleteInvestment = async (req, res) => {
 };
 const processInvestment = async (req, res) => {
   const { id } = req.params;
-  const investment = await InvestModel.findOneAndUpdate({ _id: id }, req.body, {
-    new: true,
-  });
+  const {
+    status,
+    propertyTitle,
+    chargeId,
+    firstName,
+    lastName,
+    amount,
+    email,
+    ethToken,
+  } = req.body;
+  const investment = await InvestModel.findOneAndUpdate(
+    { _id: id },
+    { status },
+    {
+      new: true,
+    }
+  );
+  const fAmount = Number(amount).toLocaleString();
+
   if (!investment) throw new NotFoundError('Investment not found');
+  ejs.renderFile(
+    path.join(__dirname, '../views/email/investment-complete.ejs'),
+    {
+      config,
+      title: `Your deposit of $ ${fAmount} has been received`,
+      amount: `$ ${fAmount}`,
+      ethToken,
+      firstName,
+      lastName,
+      propertyTitle,
+      id: chargeId,
+    },
+    async (err, data) => {
+      if (err) {
+        console.log(err);
+      } else {
+        await sendEmail({
+          from: `Lemox Support <${config.email.support}>`,
+          to: email,
+          subject: `Your deposit of $ ${fAmount} has been received`,
+          text: data,
+        });
+      }
+    }
+  );
   res.status(StatusCodes.OK).json(investment);
 };
 const updateInvestment = async (req, res) => {
@@ -210,7 +265,6 @@ const paymentHandler = async (req, res) => {
             id: event.data.id,
           }
         );
-
         await InvestModel.findOneAndUpdate(
           { _id: pendingInvestment._id },
           {
@@ -243,7 +297,7 @@ module.exports = {
   getProperties,
   getSingleProperty,
   updateInvestment,
-  successInvestment,
+  detectInvestment,
   paymentHandler,
   adminUpdate,
   deleteInvestment,
