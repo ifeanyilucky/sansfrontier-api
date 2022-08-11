@@ -44,14 +44,21 @@ app.use(
   })
 );
 app.use(bodyParser.json());
+// CORS
+const whitelist = [process.env.CORS_DOMAIN];
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+};
 
+app.use(cors(corsOptions));
 app.use(helmet());
-app.use(
-  cors({
-    credentials: true,
-    origin: 'https://lemox.io',
-  })
-);
 app.use(xss());
 
 // ROUTES
