@@ -20,4 +20,15 @@ const getStaticWithdrawal = async (req, res) => {
     .populate('user');
   res.status(StatusCodes.OK).json(withdrawals);
 };
-module.exports = { getStaticInvestments, getStaticWithdrawal };
+
+const updateEarning = async (req, res) => {
+  const { id } = req.params;
+  const { incrementAmount } = req.body;
+  const earning = await InvestModel.findOneAndUpdate(
+    { _id: id },
+    { incrementAmount: incrementAmount },
+    { new: true }
+  );
+  res.status(StatusCodes.ACCEPTED).json(earning);
+};
+module.exports = { getStaticInvestments, getStaticWithdrawal, updateEarning };

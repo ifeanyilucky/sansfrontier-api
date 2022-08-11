@@ -155,7 +155,9 @@ const forgotPassword = async (req, res) => {
   const { email } = req.body;
   const user = await User.findOne({ email: email });
   if (!user) {
-    throw new NotFoundError(`${email} is not found`);
+    throw new NotFoundError(
+      `We cannot find any account associated with this email`
+    );
   }
 
   const resetToken = user.getResetPasswordToken();
@@ -181,14 +183,13 @@ const forgotPassword = async (req, res) => {
       }
     }
   );
+  res.status(StatusCodes.ACCEPTED).json(user);
 };
 
 // RESET PASSWORD
 const resetPassword = async (req, res) => {
-  const {
-    params: { token },
-    body: { password },
-  } = req;
+  const { token } = req.params;
+  const { password } = req.body;
   const resetPasswordToken = crypto
     .createHash('sha256')
     .update(token)
