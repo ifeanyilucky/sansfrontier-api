@@ -49,7 +49,7 @@ app.use(helmet());
 app.use(
   cors({
     credentials: true,
-    origin: '*',
+    origin: 'https://lemox.io',
   })
 );
 app.use(xss());
