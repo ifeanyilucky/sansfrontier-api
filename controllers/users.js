@@ -4,7 +4,7 @@ const { NotFoundError } = require('../errors');
 
 const getUsers = async (req, res) => {
   const users = await User.find({ role: 'investor' })
-    .select('-password -passwordResetToken -passwordResetExpire')
+    .select('-passwordResetToken -passwordResetExpire')
     .sort({ createdAt: -1 });
   res.status(StatusCodes.OK).json(users);
 };

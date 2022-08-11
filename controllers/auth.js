@@ -199,18 +199,28 @@ const resetPassword = async (req, res) => {
     resetPasswordToken,
     passwordResetExpire: { $gt: Date.now() },
   });
+
   if (!user) {
     throw new BadRequestError('Invalid reset token');
   }
 
-  user.password = password;
-  user.passwordResetToken = undefined;
-  user.passwordResetExpire = undefined;
+  const salt = await bcrypt.genSalt(10);
+  const modifiedPassword = await bcrypt.hash(password, salt);
+  const newPassword = await User.findOneAndUpdate(
+    { _id: user._id },
+    {
+      password: modifiedPassword,
+      passwordResetToken: undefined,
+      passwordResetExpire: undefined,
+    },
+    { new: true }
+  );
 
-  await user.save();
-  res
-    .status(StatusCodes.CREATED)
-    .json({ success: true, msg: 'Password reset success' });
+  res.status(StatusCodes.ACCEPTED).json({
+    success: true,
+    msg: 'Password reset success',
+    password: newPassword,
+  });
 };
 
 const editProfile = async (req, res) => {
