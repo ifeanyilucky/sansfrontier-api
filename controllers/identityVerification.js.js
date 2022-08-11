@@ -8,22 +8,23 @@ const config = require('../config');
 const sendEmail = require('../utils/sendEmail');
 
 const verifyIdentity = async (req, res) => {
-  const { email, firstName, lastName, country, state, zipCode } = req.body;
+  const { email, firstName, lastName, country, state, zipCode, userId } =
+    req.body;
   const identity = await Identity.create({
     ...req.body,
-    user: req.user.userId,
+    user: userId,
   });
   const verificationRequestMsg = `
   <div>
-  <h4>
+  <p>
   ${firstName} wants to verify their identity on Lemox
-  </h4>
+  </p>
   <p>
   to view and verify their identity, click on the link below
   </p>
   <p>
-  <a href="${config.website}/admin/users/${req.user.userId}" target="_blank">
-  ${config.website}/admin/users/${req.user.userId}</a>
+  <a href="${config.website}/admin/users/${userId}" target="_blank">
+  ${config.website}/admin/users/${userId}</a>
   </p>
   </div>
   `;
