@@ -68,7 +68,7 @@ app.use('/api/v1/properties', propertyRouter);
 app.use('/api/v1/withdrawal', withdrawalRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/static', staticRouter);
-app.use('/api/v1/identity', identityRouter);
+app.use('/api/v1/veri', identityRouter);
 app.use('/api/v1/contact', contact);
 
 app.use(express.static(path.join(__dirname + '/public')));
