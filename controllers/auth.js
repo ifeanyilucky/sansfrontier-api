@@ -11,6 +11,7 @@ const {
   NotFoundError,
 } = require('../errors');
 const sendEmail = require('../utils/sendEmail');
+const cloudinary = require('../utils/cloudinary');
 const config = require('../config');
 const ejs = require('ejs');
 const jwt = require('jsonwebtoken');
@@ -226,9 +227,12 @@ const resetPassword = async (req, res) => {
 const editProfile = async (req, res) => {
   const { id } = req.params;
   const { verified } = req.body;
+  const profile = req.body.profile;
+  const avatar = JSON.parse(JSON.stringify(req.file));
+  const avatarPath = await cloudinary.uploads(avatar.path, 'lemox-avatar');
   const user = await User.findOneAndUpdate(
     { _id: id },
-    { ...req.body, verified: verified },
+    { ...req.body, profilePic: avatarPath },
     {
       runValidators: true,
       new: true,

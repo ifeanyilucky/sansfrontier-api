@@ -11,10 +11,11 @@ const {
   verifyAccount,
   getAccount,
 } = require('../controllers/auth');
+const { upload } = require('../utils/multer');
 
 router.route('/register').post(register);
 router.route('/login').post(login);
-router.route('/profile/:id').patch(editProfile);
+router.route('/profile/:id').patch(upload.single('avatar'), editProfile);
 router.route('/forgot-password').post(forgotPassword);
 router.route('/reset-password').patch(resetPassword);
 router.route('/password/:id').patch(changePassword);
