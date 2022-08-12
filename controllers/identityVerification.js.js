@@ -23,7 +23,6 @@ const verifyIdentity = async (req, res) => {
   } = identity;
   const { files } = req;
 
-  console.log(identity);
   const images = JSON.parse(JSON.stringify(files));
   const idImage = images.idImage[0];
   const selfie = images.selfie[0];
@@ -32,7 +31,7 @@ const verifyIdentity = async (req, res) => {
   const idImageUrl = await uploads(idImage.path, 'idImage');
 
   fs.unlinkSync(selfie.path);
-  fs.unlinkSync(selfie.idImage.path);
+  fs.unlinkSync(idImage.path);
 
   const addIdentity = await Identity.create({
     ...identity,
