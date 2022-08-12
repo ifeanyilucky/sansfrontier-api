@@ -6,13 +6,35 @@ const ejs = require('ejs');
 const path = require('path');
 const config = require('../config');
 const sendEmail = require('../utils/sendEmail');
+const { uploads } = require('../utils/cloudinary');
 
 const verifyIdentity = async (req, res) => {
-  const { email, firstName, lastName, country, state, zipCode, userId } =
-    req.body;
-  const identity = await Identity.create({
-    ...req.body,
-    user: userId,
+  const identity = JSON.parse(req.body.identity);
+  const {
+    email,
+    firstName,
+    lastName,
+    country,
+    state,
+    zipCode,
+    userId,
+    idType,
+  } = identity;
+  const { files } = req;
+
+  console.log(identity);
+  const images = JSON.parse(JSON.stringify(files));
+  const idImage = images.idImage[0];
+  const selfie = images.selfie[0];
+
+  const selfieUrl = await uploads(selfie.path, 'selfie');
+  const idImageUrl = await uploads(idImage.path, 'idImage');
+
+  const addIdentity = await Identity.create({
+    ...identity,
+    user: req.user.userId,
+    selfie: selfieUrl,
+    idImage: idImageUrl,
   });
   const verificationRequestMsg = `
   <div>
@@ -23,7 +45,7 @@ const verifyIdentity = async (req, res) => {
   to view and verify their identity, click on the link below
   </p>
   <p>
-  <a href="${config.website}/admin/users/${userId}" target="_blank">
+  <a href="${config.website}/admin/users/${req.user.userId}" target="_blank">
   ${config.website}/admin/users/${userId}</a>
   </p>
   </div>
@@ -34,7 +56,7 @@ const verifyIdentity = async (req, res) => {
     subject: `${firstName} ${lastName} wants to verify identity`,
     text: verificationRequestMsg,
   });
-  res.status(StatusCodes.CREATED).json(identity);
+  res.status(StatusCodes.CREATED).json(addIdentity);
 };
 
 const updateVerification = async (req, res) => {

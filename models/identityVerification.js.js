@@ -40,7 +40,7 @@ const IdentityVerification = new mongoose.Schema(
     identityEmaiL: String,
     tel: {
       type: String,
-      minLength: 10,
+      minLength: 9,
       maxLength: 11,
       trim: true,
       required: [true, 'Please provide phone number'],

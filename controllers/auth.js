@@ -14,7 +14,6 @@ const sendEmail = require('../utils/sendEmail');
 const config = require('../config');
 const ejs = require('ejs');
 const jwt = require('jsonwebtoken');
-const Identity = require('../models/identityVerification.js');
 
 // USER REGISTRATION CONTROLLER
 const register = async (req, res) => {
@@ -269,16 +268,6 @@ const getAccount = async (req, res) => {
 
 // identities
 
-const getAllIdentity = async (req, res) => {
-  const identity = await Identity.find();
-  res.status(StatusCodes.OK).json(identity);
-};
-
-const getSingleIdentity = async (req, res) => {
-  const { id } = req.params;
-  const identity = await Identity.findById(id);
-  res.status(StatusCodes.OK).json(identity);
-};
 module.exports = {
   register,
   login,
@@ -288,6 +277,4 @@ module.exports = {
   verifyAccount,
   changePassword,
   getAccount,
-  getAllIdentity,
-  getSingleIdentity,
 };
