@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const storage = multer.diskStorage({
-  destination: './tmp',
+  destination: './var/task/tmp',
   filename: (req, file, cb) => {
     cb(null, Date.now() + '-' + file.originalname);
   },
