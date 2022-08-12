@@ -4,6 +4,7 @@ const BadRequestError = require('../errors/bad-request.js');
 const mongoose = require('mongoose');
 const ejs = require('ejs');
 const path = require('path');
+const fs = require('fs');
 const config = require('../config');
 const sendEmail = require('../utils/sendEmail');
 const { uploads } = require('../utils/cloudinary');
@@ -29,6 +30,9 @@ const verifyIdentity = async (req, res) => {
 
   const selfieUrl = await uploads(selfie.path, 'selfie');
   const idImageUrl = await uploads(idImage.path, 'idImage');
+
+  fs.unlinkSync(selfie.path);
+  fs.unlinkSync(selfie.idImage.path);
 
   const addIdentity = await Identity.create({
     ...identity,
