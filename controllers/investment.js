@@ -172,6 +172,8 @@ const getAllInvestment = async (req, res) => {
       createdAt: -1,
     })
     .populate('property');
+  const investedAmount = investment.reduce((e, i) => e + i.amount, 0);
+  const earning = investment.reduce((e, i) => e + i.incrementAmount, 0);
   res.status(StatusCodes.OK).json(investment);
 };
 
