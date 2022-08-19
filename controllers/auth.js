@@ -227,12 +227,19 @@ const resetPassword = async (req, res) => {
 const editProfile = async (req, res) => {
   const { id } = req.params;
   const { verified } = req.body;
-  const profile = req.body.profile;
-  const avatar = JSON.parse(JSON.stringify(req.file));
-  const avatarPath = await cloudinary.uploads(avatar.path, 'lemox-avatar');
+  const account = await User.findById({ _id: id });
+  let avatarPath = null;
+  const profile = JSON.parse(req.body.profile);
+  try {
+    const avatar = JSON.parse(JSON.stringify(req.file));
+    avatarPath = await cloudinary.uploads(avatar.path, 'lemox-avatar');
+  } catch (err) {
+    avatarPath = account.profilePic;
+  }
+  const newProfilePic = avatarPath === null ? account.profilePic : avatarPath;
   const user = await User.findOneAndUpdate(
     { _id: id },
-    { ...req.body, profilePic: avatarPath },
+    { ...profile, profilePic: newProfilePic },
     {
       runValidators: true,
       new: true,

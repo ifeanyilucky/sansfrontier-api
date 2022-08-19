@@ -46,7 +46,7 @@ const createInvestment = async (req, res) => {
     if (err) {
       res.status(400).send({ message: err.message });
     } else {
-      await InvestModel.create({
+      const newInvestment = await InvestModel.create({
         charge: response,
         property: response.metadata.property_id,
         ethToken: response.metadata.ethToken,
@@ -61,6 +61,7 @@ const createInvestment = async (req, res) => {
         hosted_url: response.hosted_url,
         id: response.id,
         code: response.code,
+        investment: newInvestment,
       });
     }
   });
