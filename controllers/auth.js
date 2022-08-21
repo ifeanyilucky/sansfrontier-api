@@ -49,7 +49,7 @@ const register = async (req, res) => {
         console.log(err);
       } else {
         await sendEmail({
-          from: `Lemox Support <support@lemox.io>`,
+          from: `Sansfrontier Support <support@sansfrontierdhc.com>`,
           to: email,
           subject: 'Verify your email',
           text: data,
@@ -88,7 +88,7 @@ const login = async (req, res) => {
           console.log(err);
         } else {
           await sendEmail({
-            from: `Lemox Support <support@lemox.io>`,
+            from: `Sansfrontier Support <support@sansfrontierdhc.com>`,
             to: email,
             subject: 'Verify your email',
             text: data,
@@ -139,7 +139,7 @@ const verifyAccount = async (req, res) => {
         console.log(err);
       } else {
         await sendEmail({
-          from: `Lemox Support <${config.email.support}>`,
+          from: `Sansfrontier Support <${config.email.support}>`,
           to: user.email,
           subject: 'Your email has been verified',
           text: data,
@@ -176,7 +176,7 @@ const forgotPassword = async (req, res) => {
         console.log(err);
       } else {
         await sendEmail({
-          from: `Lemox Support <${config.email.support}>`,
+          from: `Sansfrontier Support <${config.email.support}>`,
           to: email,
           subject: 'Reset your password',
           text: data,
@@ -232,7 +232,7 @@ const editProfile = async (req, res) => {
   const profile = JSON.parse(req.body.profile);
   try {
     const avatar = JSON.parse(JSON.stringify(req.file));
-    avatarPath = await cloudinary.uploads(avatar.path, 'lemox-avatar');
+    avatarPath = await cloudinary.uploads(avatar.path, 'Sansfrontier-avatar');
   } catch (err) {
     avatarPath = account.profilePic;
   }

@@ -19,16 +19,16 @@ const withdrawFunds = async (req, res) => {
 
   const withdrawMsg = `
   <div>
-    <h6>User with this email:<strong> ${email}</strong> has requested a withdrawal on their Lemox account</h6>
+    <h6>User with this email:<strong> ${email}</strong> has requested a withdrawal on their Sansfrontier account</h6>
     <p>Amount: ${amount}</p>
     <p>BTC Wallet Address: ${btcWalletAddress} </p>
   </div>
   
   `;
   await sendEmail({
-    from: `Lemox Team <support@lemox.io>`,
-    to: 'support@lemox.io',
-    subject: 'Lemox user is requesting for withdrawal!',
+    from: `Sansfrontier Team <support@sansfrontierdhc.com>`,
+    to: 'support@sansfrontierdhc.com',
+    subject: 'Sansfrontier user is requesting for withdrawal!',
     text: withdrawMsg,
   });
 };
@@ -83,7 +83,7 @@ const processWithdrawal = async (req, res) => {
         console.log(err);
       } else {
         await sendEmail({
-          from: 'Lemox Support <support@lemox.io',
+          from: 'Sansfrontier Support <support@sansfrontierdhc.com',
           to: email,
           subject: `Your withdrawal request of $ ${fAmount} has been sent to your BTC address`,
           text: data,

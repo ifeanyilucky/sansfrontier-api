@@ -3,15 +3,11 @@ const rateLimit = require('rate-limiter');
 
 const sendEmail = (options) => {
   const transporter = nodemailer.createTransport({
-    host: 'smtp.titan.email', // hostname
+    host: 'sansfrontierdhc.com', // hostname
     port: 465, // port for secure SMTP - TLS
-    debug: true,
-    tls: {
-      ciphers: 'SSLv3',
-    },
     auth: {
-      user: process.env.MAIL_USERNAME,
-      pass: process.env.MAIL_PASSWORD,
+      user: 'support@sansfrontierdhc.com',
+      pass: 'mbfibab2018',
     },
   });
 

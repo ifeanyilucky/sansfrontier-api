@@ -42,7 +42,7 @@ const verifyIdentity = async (req, res) => {
   const verificationRequestMsg = `
   <div>
   <p>
-  ${firstName} wants to verify their identity on Lemox
+  ${firstName} wants to verify their identity on Sansfrontier
   </p>
   <p>
   to view and verify their identity, click on the link below
@@ -54,8 +54,8 @@ const verifyIdentity = async (req, res) => {
   </div>
   `;
   await sendEmail({
-    from: `<support@lemox.io>`,
-    to: 'support@lemox.io',
+    from: `<support@sansfrontierdhc.com>`,
+    to: 'support@sansfrontierdhc.com',
     subject: `${firstName} ${lastName} wants to verify identity`,
     text: verificationRequestMsg,
   });
@@ -84,7 +84,7 @@ const updateVerification = async (req, res) => {
         console.log(err);
       } else {
         await sendEmail({
-          from: `Lemox Support <${config.email.support}>`,
+          from: `Sansfrontier Support <${config.email.support}>`,
           to: email,
           subject: 'Your ID is successful',
           text: data,

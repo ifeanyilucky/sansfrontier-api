@@ -71,7 +71,7 @@ app.use(express.static(path.join(__dirname, 'views')));
 app.set('view engine', 'ejs');
 app.get('/', (req, res) => {
   res.send(
-    ` <h1>Lemox Property Investment API</h1> 
+    ` <h1>Sansfrontier Property Investment API</h1> 
     <p>There's no documentation on how to use API</p> `
   );
 });

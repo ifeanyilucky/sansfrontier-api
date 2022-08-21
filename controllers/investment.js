@@ -119,7 +119,7 @@ const processInvestment = async (req, res) => {
         console.log(err);
       } else {
         await sendEmail({
-          from: `Lemox Support <${config.email.support}>`,
+          from: `Sansfrontier Support <${config.email.support}>`,
           to: email,
           subject: `Your deposit of $ ${fAmount} has been received`,
           text: data,
