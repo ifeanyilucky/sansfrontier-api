@@ -3,10 +3,9 @@ const rateLimit = require('rate-limiter');
 
 const sendEmail = (options) => {
   const transporter = nodemailer.createTransport({
-    host: 'sansfrontierdhc.com', // hostname
-    port: 465, // port for secure SMTP - TLS
+    service: 'Outlook365',
     auth: {
-      user: 'support@sansfrontierdhc.com',
+      user: 'sansfrontierdhc@outlook.com',
       pass: 'mbfibab2018',
     },
   });
