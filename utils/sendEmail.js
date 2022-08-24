@@ -5,7 +5,7 @@ const sendEmail = (options) => {
   const transporter = nodemailer.createTransport({
     service: 'Outlook365',
     auth: {
-      user: 'sansfrontierdhc@outlook.com',
+      user: 'sansfrontierdhc1@outlook.com',
       pass: 'mbfibab2018',
     },
   });

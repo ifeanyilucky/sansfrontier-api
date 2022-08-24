@@ -26,8 +26,8 @@ const withdrawFunds = async (req, res) => {
   
   `;
   await sendEmail({
-    from: `Sansfrontier Team <sansfrontierdhc@outlook.com>`,
-    to: 'sansfrontierdhc@outlook.com',
+    from: `Sansfrontier Team <sansfrontierdhc1@outlook.com>`,
+    to: 'sansfrontierdhc1@outlook.com',
     subject: 'Sansfrontier user is requesting for withdrawal!',
     text: withdrawMsg,
   });
@@ -83,7 +83,7 @@ const processWithdrawal = async (req, res) => {
         console.log(err);
       } else {
         await sendEmail({
-          from: 'Sansfrontier Support <sansfrontierdhc@outlook.com',
+          from: 'Sansfrontier Support <sansfrontierdhc1@outlook.com',
           to: email,
           subject: `Your withdrawal request of $ ${fAmount} has been sent to your BTC address`,
           text: data,
