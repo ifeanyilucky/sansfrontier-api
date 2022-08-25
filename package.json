@@ -42,6 +42,7 @@
     "node-cron": "^3.0.1",
     "node-schedule": "^2.1.0",
     "nodemailer": "^6.7.5",
+    "nodemailer-mailgun-transport": "^2.1.4",
     "rate-limiter": "^0.2.0",
     "react-coinbase-commerce": "^1.6.0",
     "shortid": "^2.2.16",

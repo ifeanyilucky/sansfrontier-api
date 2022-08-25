@@ -1,12 +1,15 @@
 const nodemailer = require('nodemailer');
-const rateLimit = require('rate-limiter');
 
 const sendEmail = (options) => {
   const transporter = nodemailer.createTransport({
-    service: 'Outlook365',
+    service: 'gmail',
     auth: {
-      user: 'sansfrontierdhc1@outlook.com',
-      pass: 'mbfibab2018',
+      type: 'OAuth2',
+      user: process.env.MAIL_USERNAME,
+      pass: process.env.MAIL_PASSWORD,
+      clientId: process.env.CLIENTID,
+      clientSecret: process.env.CLIENTSECRET,
+      refreshToken: process.env.REF_TOKEN,
     },
   });
 

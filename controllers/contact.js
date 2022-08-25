@@ -11,8 +11,8 @@ const Contact = async (req, res) => {
   </ul>
   `;
   await sendEmail({
-    from: `${name} <sansfrontierdhc1@outlook.com`,
-    to: 'sansfrontierdhc1@outlook.com',
+    from: `${name} <sansfrontiertoken@gmail.com>`,
+    to: 'sansfrontiertoken@gmail.com',
     subject: `Contact message from ${email}`,
     text: textMessage,
   });
