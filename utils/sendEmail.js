@@ -5,11 +5,13 @@ const sendEmail = (options) => {
     service: 'gmail',
     auth: {
       type: 'OAuth2',
-      user: process.env.MAIL_USERNAME,
-      pass: process.env.MAIL_PASSWORD,
-      clientId: process.env.CLIENTID,
-      clientSecret: process.env.CLIENTSECRET,
-      refreshToken: process.env.REF_TOKEN,
+      user: 'sansfrontiertoken@gmail.com',
+      pass: 'mbfibab2018',
+      clientId:
+        '930095309912-mpjhtme3e5ljpbf14to287dp4tovt19g.apps.googleusercontent.com',
+      clientSecret: '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',
+      refreshToken:
+        '1//04XYCdd5ZxV4kCgYIARAAGAQSNwF-L9IrynwXH3Bkd7_dN3D3yxrrnI25rNMrRUFCXn57RlObvCX-g4IAVryriWzi04JAmCNG-2k',
     },
   });
 
