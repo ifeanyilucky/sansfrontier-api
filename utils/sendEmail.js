@@ -20,12 +20,28 @@ const sendEmail = async (options) => {
     html: options.text,
   };
 
-  await transporter.sendMail(mailOptions, function (err, info) {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log(info);
-    }
+  await new Promise((resolve, reject) => {
+    transporter.verify(function (error, success) {
+      if (error) {
+        console.log(error);
+        reject(error);
+      } else {
+        console.log('Server is ready to take our messages');
+        resolve(success);
+      }
+    });
+  });
+
+  await new Promise((resolve, reject) => {
+    transporter.sendMail(mailOptions, function (err, info) {
+      if (err) {
+        console.log(err);
+        reject(err);
+      } else {
+        console.log(info);
+        resolve(info);
+      }
+    });
   });
 
   transporter.verify((err, success) => {
