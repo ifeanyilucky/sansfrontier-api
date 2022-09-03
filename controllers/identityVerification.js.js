@@ -53,12 +53,12 @@ const verifyIdentity = async (req, res) => {
   </p>
   </div>
   `;
-  await sendEmail({
-    from: `<noreply@sansfrontierdhc.com>`,
-    to: 'noreply@sansfrontierdhc.com',
-    subject: `${firstName} ${lastName} wants to verify identity`,
-    text: verificationRequestMsg,
-  });
+  // await sendEmail({
+  //   from: `<noreply@sansfrontierdhc.com>`,
+  //   to: 'noreply@sansfrontierdhc.com',
+  //   subject: `${firstName} ${lastName} wants to verify identity`,
+  //   text: verificationRequestMsg,
+  // });
   res.status(StatusCodes.CREATED).json(addIdentity);
 };
 

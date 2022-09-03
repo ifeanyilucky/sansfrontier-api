@@ -37,26 +37,26 @@ const register = async (req, res) => {
   const url = `${config.website}/auth/verify/${verificationToken}`;
   const token = result.createJWT();
 
-  ejs.renderFile(
-    path.join(__dirname, '../views/email/verify.ejs'),
-    {
-      config: config,
-      title: 'Verify your email',
-      url,
-    },
-    async (err, data) => {
-      if (err) {
-        console.log(err);
-      } else {
-        await sendEmail({
-          from: `Sansfrontier Support <noreply@sansfrontierdhc.com>`,
-          to: email,
-          subject: 'Verify your email',
-          text: data,
-        });
-      }
-    }
-  );
+  // ejs.renderFile(
+  //   path.join(__dirname, '../views/email/verify.ejs'),
+  //   {
+  //     config: config,
+  //     title: 'Verify your email',
+  //     url,
+  //   },
+  //   async (err, data) => {
+  //     if (err) {
+  //       console.log(err);
+  //     } else {
+  //       await sendEmail({
+  //         from: `Sansfrontier Support <noreply@sansfrontierdhc.com>`,
+  //         to: email,
+  //         subject: 'Verify your email',
+  //         text: data,
+  //       });
+  //     }
+  //   }
+  // );
 
   res.status(StatusCodes.CREATED).json({ result, token, role });
 };
@@ -75,28 +75,28 @@ const login = async (req, res) => {
   }
   const verificationToken = user.generateVerificationToken();
   const url = `${config.website}/auth/verify/${verificationToken}`;
-  if (user.verified === false) {
-    ejs.renderFile(
-      path.join(__dirname, '../views/email/verify.ejs'),
-      {
-        config: config,
-        title: 'Verify your email',
-        url,
-      },
-      async (err, data) => {
-        if (err) {
-          console.log(err);
-        } else {
-          await sendEmail({
-            from: `Sansfrontier Support <noreply@sansfrontierdhc.com>`,
-            to: email,
-            subject: 'Verify your email',
-            text: data,
-          });
-        }
-      }
-    );
-  }
+  // if (user.verified === false) {
+  //   ejs.renderFile(
+  //     path.join(__dirname, '../views/email/verify.ejs'),
+  //     {
+  //       config: config,
+  //       title: 'Verify your email',
+  //       url,
+  //     },
+  //     async (err, data) => {
+  //       if (err) {
+  //         console.log(err);
+  //       } else {
+  //         await sendEmail({
+  //           from: `Sansfrontier Support <noreply@sansfrontierdhc.com>`,
+  //           to: email,
+  //           subject: 'Verify your email',
+  //           text: data,
+  //         });
+  //       }
+  //     }
+  //   );
+  // }
 
   const isPasswordCorrect = await user.comparePassword(password);
   // compare password
