@@ -15,8 +15,8 @@ config.facebook = 'https://www.facebook.com/Sansfrontier-101380271875067/';
 config.telegram = 'https://t.me/Sansfrontierco';
 config.twitter = 'https://twitter.com/Sansfrontier_io';
 
-config.email.support = 'sansfrontiertoken@gmail.com';
-config.email.supportEmbed = `Sansfrontier Support <sansfrontiertoken@gmail.com>`;
+config.email.support = 'noreply@sansfrontierdhc.com';
+config.email.supportEmbed = `Sansfrontier Support <noreply@sansfrontierdhc.com>`;
 config.email.admin = 'admin@Sansfrontier.io';
 config.email.info = 'info@Sansfrontier.io';
 

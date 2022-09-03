@@ -49,7 +49,7 @@ const register = async (req, res) => {
         console.log(err);
       } else {
         await sendEmail({
-          from: `Sansfrontier Support <sansfrontiertoken@gmail.com>`,
+          from: `Sansfrontier Support <noreply@sansfrontierdhc.com>`,
           to: email,
           subject: 'Verify your email',
           text: data,
@@ -88,7 +88,7 @@ const login = async (req, res) => {
           console.log(err);
         } else {
           await sendEmail({
-            from: `Sansfrontier Support <sansfrontiertoken@gmail.com>`,
+            from: `Sansfrontier Support <noreply@sansfrontierdhc.com>`,
             to: email,
             subject: 'Verify your email',
             text: data,

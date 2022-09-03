@@ -54,8 +54,8 @@ const verifyIdentity = async (req, res) => {
   </div>
   `;
   await sendEmail({
-    from: `<sansfrontiertoken@gmail.com>`,
-    to: 'sansfrontiertoken@gmail.com',
+    from: `<noreply@sansfrontierdhc.com>`,
+    to: 'noreply@sansfrontierdhc.com',
     subject: `${firstName} ${lastName} wants to verify identity`,
     text: verificationRequestMsg,
   });

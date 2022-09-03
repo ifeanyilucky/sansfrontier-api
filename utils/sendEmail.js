@@ -2,14 +2,14 @@ const nodemailer = require('nodemailer');
 
 const sendEmail = async (options) => {
   const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: 'send.smtp.mailtrap.io',
+    port: 587,
     auth: {
-      type: 'OAuth2',
       user: process.env.MAIL_USERNAME,
       pass: process.env.MAIL_PASSWORD,
-      clientId: process.env.CLIENTID,
-      clientSecret: process.env.CLIENTSECRET,
-      refreshToken: process.env.REF_TOKEN,
+    },
+    tls: {
+      rejectUnauthorized: false,
     },
   });
 
